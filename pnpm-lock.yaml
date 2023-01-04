@@ -1,0 +1,13 @@
+lockfileVersion: 5.4
+
+specifiers:
+  single-spa: ^5.9.4
+
+dependencies:
+  single-spa: 5.9.4
+
+packages:
+
+  /single-spa/5.9.4:
+    resolution: {integrity: sha512-QkEoh0AzGuU82qnbUUk0ydF78QbU5wMKqKKJn7uUQfBiOYlRQEfIOpLM4m23Sab+kTOLI1kbYhYeiQ7fX5KVVw==}
+    dev: false
