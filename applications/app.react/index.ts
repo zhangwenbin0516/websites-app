@@ -1,0 +1,1 @@
+import * as spa from 'single-spa';
