@@ -10,7 +10,8 @@ const options: Configuration = {
   },
   output: {
     filename: "js/[name].[contenthash:7].js",
-    path: path.resolve(__dirname, "../../dist")
+    chunkFilename: "js/[name].[id].js",
+    path: path.resolve(__dirname, "../../dist/webpack")
   },
   resolve: {
     // extensions: [".ts", ".tsx", ".css", ".scss", ".json"],
@@ -18,6 +19,10 @@ const options: Configuration = {
   },
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        use: []
+      },
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader"]
