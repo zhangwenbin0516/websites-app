@@ -1,7 +1,7 @@
-import path from 'path';
 import webpack from 'webpack';
 import devWebpack from 'webpack-dev-server';
 import Merge from 'webpack-merge';
+import { resolve } from '../common/utils';
 
 import webpackConfig from './webpack.config';
 
@@ -9,7 +9,7 @@ const options = Merge(webpackConfig, {
   mode: 'development',
   output: {
     filename: 'js/[name].js',
-    path: path.resolve(__dirname, '../../dist/webpack')
+    path: resolve('dist/webpack')
   }
 })
 

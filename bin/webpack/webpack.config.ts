@@ -1,17 +1,17 @@
 // https://webpack.docschina.org/concepts/
 import { Configuration } from "webpack";
-import path from "path";
+import { resolve } from "../common/utils";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
 const options: Configuration = {
   entry: {
-    app: path.resolve(__dirname, "../../src/main.ts")
+    app: resolve("src/main.ts")
   },
   output: {
     filename: "js/[name].[contenthash:7].js",
     chunkFilename: "js/[name].[id].js",
-    path: path.resolve(__dirname, "../../dist/webpack")
+    path: resolve("dist/webpack")
   },
   resolve: {
     // extensions: [".ts", ".tsx", ".css", ".scss", ".json"],
@@ -44,7 +44,7 @@ const options: Configuration = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: "single-spa",
-      template: path.resolve(__dirname, "../../static/index.html"),
+      template: resolve("static/webpack.html"),
       filename: "index.html"
     })
   ]
