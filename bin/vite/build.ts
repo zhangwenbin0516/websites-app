@@ -6,10 +6,12 @@ build({
   mode: 'production',
   plugins: [
     createHtmlPlugin({
+      minify: true,
       pages: [
         {
           template: resolve('static/vite.html'),
-          filename: 'index.html'
+          filename: '/index.html',
+          entry: resolve('src/main.ts')
         }
       ]
     })
