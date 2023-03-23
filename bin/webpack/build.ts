@@ -3,6 +3,7 @@ import Merge from 'webpack-merge';
 
 import webpackConfig from './webpack.config';
 
+
 const options = Merge(webpackConfig, {
   mode: 'production'
 });

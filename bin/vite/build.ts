@@ -1,21 +1,12 @@
 import { build } from 'vite';
-import { createHtmlPlugin } from 'vite-plugin-html';
 import { resolve } from '../common/utils';
 
 build({
   mode: 'production',
   plugins: [
-    createHtmlPlugin({
-      minify: true,
-      pages: [
-        {
-          template: resolve('static/vite.html'),
-          filename: '/index.html',
-          entry: resolve('src/main.ts')
-        }
-      ]
-    })
+    
   ],
+  
   build: {
     lib: {
       entry: resolve('src/main.ts'),
