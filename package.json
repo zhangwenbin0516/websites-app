@@ -4,41 +4,44 @@
   "description": "",
   "scripts": {
     "dev": "ts-node-dev ./bin/webpack.client.ts",
-    "build": "ts-node --files bin/build.ts",
+    "build": "ts-node bin/build.ts",
     "start": "npm run dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.9.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.21.3",
     "@babel/preset-env": "^7.20.2",
-    "@babel/preset-react": "^7.18.6",
-    "@babel/preset-typescript": "^7.21.0",
-    "@types/node": "^18.15.5",
+    "@types/node": "^18.15.10",
+    "@types/react": "^18.0.29",
+    "@types/react-dom": "^18.0.11",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/webpack-node-externals": "^3.0.0",
     "babel-loader": "^9.1.2",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.0",
-    "mini-css-extract-plugin": "^2.7.5",
-    "sass": "^1.59.3",
+    "sass": "^1.60.0",
     "sass-loader": "^13.2.1",
+    "source-map-loader": "^4.0.1",
     "style-loader": "^3.3.2",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "tslib": "^2.5.0",
     "typescript": "^5.0.2",
     "url-loader": "^4.1.1",
     "webpack": "^5.76.3",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.13.1",
-    "webpack-merge": "^5.8.0"
-  }, 
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router": "^6.9.0"
+    "webpack-merge": "^5.8.0",
+    "webpack-node-externals": "^3.0.0",
+    "webpackbar": "^5.0.2"
   }
 }
