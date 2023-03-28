@@ -1,62 +1,52 @@
-import { Configuration } from "webpack";
-import { CleanWebpackPlugin } from "clean-webpack-plugin";
-import HTMLWebpackPlugin from "html-webpack-plugin";
-import WebpackBar from "webpackbar";
-import nodeExternals from "webpack-node-externals";
-import { resolve } from "./utils";
+import { Configuration } from 'webpack';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import compressionWebpackPlugin from 'compression-webpack-plugin';
+import { resolve } from './utils';
+
 const options: Configuration = {
   entry: {
-    main: resolve('src/main.tsx'),
+    main: resolve('..', 'src/main.tsx'),
     common: ['react', 'react-dom'],
     router: ['react-router-dom']
   },
-  output: {
-    path: resolve('dist'),
-    filename: 'js/[name].[contenthash:7].js',
-    chunkFilename: 'js/[name].[id].js',
-    publicPath: '/'
-  },
   resolve: {
-    extensions: ['.tsx'],
+    extensions: [".tsx", ".ts", ".js", ".jsx", ".css", ".scss", ".json"],
     alias: {
-      "@": resolve('src')
+      "@": resolve('..', 'src')
     }
   },
-  externals: [nodeExternals()],
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
+        test: /\.tsx$/,
         use: [
           {
             loader: 'babel-loader'
           },
           {
-            loader: 'ts-loader',
-            options: {
-              configFile: resolve('tsconfig.json')
-            }
+            loader: 'ts-loader'
           }
         ],
-        exclude: /node_modules/
+        exclude: resolve('..', 'node_modules')
       },
       {
-        test: /\.js$/,
-        loader: 'source-map-loader',
         enforce: 'pre',
-        exclude: /node_modules/
+        test: /\.jsx$/,
+        loader: 'source-map-loader',
+        exclude: resolve('..', 'node_modules')
       }
     ]
   },
   plugins: [
-    new WebpackBar(),
     new CleanWebpackPlugin(),
-    new HTMLWebpackPlugin({
-      template: resolve('static/index.html'),
-      filename: 'index.html',
-      title: '微应用主应用'
-    })
+    new HtmlWebpackPlugin({
+      title: '微应用',
+      template: resolve('..', 'static/index.html'),
+      filename: 'index.html'
+    }),
+    new compressionWebpackPlugin()
   ]
-}
+};
 
 export default options;

@@ -1,31 +1,72 @@
 import webpack from 'webpack';
-import Merge from 'webpack-merge';
+import { Configuration, Compiler } from 'webpack';
+import webpackMerge from 'webpack-merge';
+import miniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import { resolve } from './utils';
 import webpackConfig from './webpack.config';
 
-const options = Merge(webpackConfig, {
+const options: Configuration = webpackMerge(webpackConfig, {
   mode: 'production',
+  output: {
+    path: resolve('dist'),
+    filename: 'js/[name].[contenthash:7].js',
+    chunkFilename: 'js/[name].[id].js',
+    publicPath: '/'
+  },
   module: {
     rules: [
       {
-        test: /\.(png|gif|jpg|jpeg|image|webp)$/,
-        include: resolve('src'),
+        test: /\.css$/,
+        use: [
+          {
+            loader: miniCssExtractPlugin.loader
+          },
+          {
+            loader: 'css-loader'
+          }
+        ],
+        exclude: resolve('..', 'node_modules')
+      },
+      {
+        test: /\.s[ac]ss$/,
+        use: [
+          {
+            loader: miniCssExtractPlugin.loader
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'postcss-loader'
+          },
+          {
+            loader: 'sass-loader'
+          }
+        ],
+        exclude: resolve('..', 'node_modules')
+      },
+      {
+        test: /\.(png|gif|jpg|jpeg|webp)$/,
         loader: 'url-loader',
         options: {
-          limit: 12 * 1024,
-          outputPath: "images",
-          name: "[name].[contenthash:5].[ext]",
-          publicPath: '/'
+          limit: 0 * 1024,
+          name: 'images/[name].[contenthash:7].[ext]'
         },
-        exclude: resolve('node_modules')
+        exclude: resolve('..', 'node_modules')
       }
     ]
-  }
+  },
+  plugins: [
+    new miniCssExtractPlugin({
+      filename: 'css/[name].[contenthash:7].css',
+      chunkFilename: 'css/[name].[id].css'
+    })
+  ]
 });
 
-const compiler = webpack(options);
+const compiler: Compiler = webpack(options);
 
 compiler.run(() => {
   console.log('打包完成')
-})
+});
