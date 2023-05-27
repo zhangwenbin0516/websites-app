@@ -1,23 +1,29 @@
-import { Configuration } from 'webpack'
-import * as HtmlWebpackPlugin from 'html-webpack-plugin'
-import * as CompressionWebpackPlugin from 'compression-webpack-plugin'
-import WebpackBar from 'webpackbar'
-import * as ESLintWebpackPlugin from 'eslint-webpack-plugin'
-import { resolve } from './utils'
-const options: Configuration = {
+import {Configuration} from "webpack"
+import webpackBar from "webpackbar"
+import htmlWebpackPlugin from "html-webpack-plugin"
+import compressionWebpackPlugin from "compression-webpack-plugin"
+import eslintWebpackPlugin from "eslint-webpack-plugin"
+import path from "path"
+
+export const resolve = (...dirs: string[]) => {
+  return path.resolve(...[__dirname, ...dirs])
+}
+
+export const configs: Configuration = {
+  mode: "development",
   entry: {
-    main: resolve('..', 'client/main.tsx'),
-    common: ['react', 'react-dom'],
-    router: ['react-router-dom']
+    main: resolve("..", "src/main.tsx"),
+    reactJS: ["react", "react-dom"],
+    router: ["react-router-dom"]
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx', '.css', '.scss', '.json'],
     alias: {
-      '@': resolve('..', 'client'),
-      '@style': resolve('..', 'client/styles'),
-      '@view': resolve('..', 'client/views'),
-      '@element': resolve('..', 'client/components'),
-      '@route': resolve('..', 'client/router')
+      '@': resolve('..', 'src'),
+      '@style': resolve('..', 'src/styles'),
+      '@view': resolve('..', 'src/views'),
+      '@element': resolve('..', 'src/components'),
+      '@route': resolve('..', 'src/router')
     }
   },
   module: {
@@ -43,14 +49,14 @@ const options: Configuration = {
     ]
   },
   plugins: [
-    new WebpackBar(),
-    new HtmlWebpackPlugin({
+    new webpackBar(),
+    new htmlWebpackPlugin({
       title: '微应用',
       template: resolve('..', 'static/index.html'),
       filename: 'index.html'
     }),
-    new CompressionWebpackPlugin(),
-    new ESLintWebpackPlugin({
+    new compressionWebpackPlugin(),
+    new eslintWebpackPlugin({
       fix: true,
       context: resolve('..', 'src'),
       cache: true,
@@ -61,5 +67,3 @@ const options: Configuration = {
     errorDetails: true
   }
 }
-
-export default options

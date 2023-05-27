@@ -1,20 +1,16 @@
-import webpack from 'webpack'
-import webpackMerge from 'webpack-merge'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-// import workboxWebpackPlugin from 'workbox-webpack-plugin'
-import { CleanWebpackPlugin } from 'clean-webpack-plugin'
-// import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
-import { resolve } from './utils'
-import webpackConfig from './webpack.config'
-// const BundleAnalyzer: any = BundleAnalyzerPlugin
+import webpack, { Compiler, Configuration } from "webpack"
+import merge from "webpack-merge"
+import miniCssExtractPlugin from "mini-css-extract-plugin"
+import { CleanWebpackPlugin } from "clean-webpack-plugin"
+import { resolve, configs } from "./webpack.config"
 
-const options: webpack.Configuration = webpackMerge(webpackConfig, {
-  mode: 'production',
+const options: Configuration = merge({
+  mode: "production",
   output: {
     path: resolve('..', 'dist'),
     filename: 'js/[name].[contenthash:7].js',
     chunkFilename: 'js/[name].[id].js',
-    publicPath: '/dist'
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -22,7 +18,7 @@ const options: webpack.Configuration = webpackMerge(webpackConfig, {
         test: /\.css$/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader
+            loader: miniCssExtractPlugin.loader
           },
           {
             loader: 'css-loader'
@@ -34,7 +30,7 @@ const options: webpack.Configuration = webpackMerge(webpackConfig, {
         test: /\.s[ac]ss$/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader
+            loader: miniCssExtractPlugin.loader
           },
           {
             loader: 'css-loader'
@@ -61,36 +57,15 @@ const options: webpack.Configuration = webpackMerge(webpackConfig, {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash:7].css',
-      chunkFilename: 'css/[name].[id].css'
-    }),
-    // new workboxWebpackPlugin.GenerateSW({
-    //   cacheId: 'webpack-pwa', // 设置前缀
-    //   clientsClaim: true,
-    //   skipWaiting: true,
-    //   runtimeCaching: [
-    //     // 配置路由请求缓存
-    //     {
-    //       urlPattern: /.*\.js/, // 匹配文件
-    //       handler: 'NetworkFirst' // 网络优先
-    //     },
-    //     {
-    //       urlPattern: /\/api/, // 匹配文件
-    //       handler: 'NetworkFirst' // 网络优先
-    //     }
-    //   ]
-    // }),
-    // new BundleAnalyzer({
-    //   analyzerHost: 'localhost',
-    //   analyzerPort: 3603,
-    //   generateStatsFile: true
-    // })
+    new miniCssExtractPlugin({
+      filename: 'css/[name].[contenthash:7].[css]',
+      chunkFilename: 'css/[id].[contenthash:7].css'
+    })
   ]
-})
+}, configs)
 
-const compiler: webpack.Compiler = webpack(options)
+const compiler: Compiler = webpack(options)
 
 compiler.run(() => {
-  console.log('打包完成')
+  console.log('项目打包完成')
 })

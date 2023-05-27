@@ -1,27 +1,8 @@
 {
   "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "targets": {
-          "node": "current"
-        }
-      }
-    ],
+    "@babel/preset-env",
     "@babel/react",
-    "@babel/preset-typescript"
-  ],
-  "plugins": [
-    "@babel/plugin-transform-runtime",
-    "syntax-dynamic-import",
-    "@babel/plugin-transform-async-to-generator"
-  ],
-  "env": {
-    "test": {
-      "plugins": ["dynamic-import-node"]
-    },
-    "preset": {
-      "target": "node"
-    }
-  }
+    "@babel/preset-typescript",
+    "@babel/plugin-transform-runtime"
+  ]
 }

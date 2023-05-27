@@ -1,18 +1,17 @@
-import * as webpack from 'webpack'
-import * as DevServer from 'webpack-dev-server'
-import webpackMerge from 'webpack-merge'
-import { resolve } from './utils'
-import webpackConfig from './webpack.config'
+import webpack, { Compiler, Configuration, HotModuleReplacementPlugin } from "webpack"
+import merge from "webpack-merge"
+import devServer from "webpack-dev-server"
+import { resolve, configs } from "./webpack.config"
+import serveConf from "./local.config"
 
-const options: webpack.Configuration = webpackMerge(webpackConfig, {
-  mode: 'development',
-  target: 'web',
-  devtool: 'inline-source-map',
+const options: Configuration = merge(configs, {
+  mode: "development",
+  devtool: "inline-source-map",
   output: {
-    path: resolve('..', 'dist'),
-    filename: 'js/[name].js',
-    chunkFilename: 'js/[name].js',
-    publicPath: '/'
+    path: resolve("..", "dist/client"),
+    filename: "js/[name].js",
+    chunkFilename: "js/[id].js",
+    publicPath: "/"
   },
   module: {
     rules: [
@@ -56,17 +55,13 @@ const options: webpack.Configuration = webpackMerge(webpackConfig, {
         exclude: resolve('..', 'node_modules')
       }
     ]
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ]
+  }
 })
 
-const compiler: webpack.Compiler = webpack(options)
+const compiler: Compiler = webpack(options)
 
-const serveConfig = {
-  host: 'localhost',
-  port: 3000,
+const serve = new devServer({
+  ...(serveConf.config || {}),
   hot: true,
   open: true,
   compress: true,
@@ -83,13 +78,10 @@ const serveConfig = {
   headers: {
     "Access-Control-Allow-Origin": "*"
   }
-}
+}, compiler)
 
-const server = new DevServer(serveConfig, compiler)
-
-server.startCallback((err) => {
-  const devConfig = server.options
-
+serve.startCallback((err) => {
+  const devConfig = serveConf.config || {}
   console.log(err, '错误日志')
   console.log('本地访问服务地址：', `http://${devConfig.host}:${devConfig.port}`)
 })
