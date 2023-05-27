@@ -24,5 +24,6 @@
 ### webpack相关问题
 
 * babel解析必须配置babel引入文件，webpack引入造成多重报错
+* ts-node 使用commonjs模式，ts-node环境中禁止开启type: module
 
 <!-- https://zh-hans.single-spa.js.org/docs/getting-started-overview/ -->

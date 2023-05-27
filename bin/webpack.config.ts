@@ -1,25 +1,29 @@
-import { Configuration } from 'webpack';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import compressionWebpackPlugin from 'compression-webpack-plugin';
-import { resolve } from './utils';
-
+import { Configuration } from 'webpack'
+import * as HtmlWebpackPlugin from 'html-webpack-plugin'
+import * as CompressionWebpackPlugin from 'compression-webpack-plugin'
+import WebpackBar from 'webpackbar'
+import * as ESLintWebpackPlugin from 'eslint-webpack-plugin'
+import { resolve } from './utils'
 const options: Configuration = {
   entry: {
-    main: resolve('..', 'src/main.tsx'),
+    main: resolve('..', 'client/main.tsx'),
     common: ['react', 'react-dom'],
     router: ['react-router-dom']
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js", ".jsx", ".css", ".scss", ".json"],
+    extensions: ['.tsx', '.ts', '.js', '.jsx', '.css', '.scss', '.json'],
     alias: {
-      "@": resolve('..', 'src')
+      '@': resolve('..', 'client'),
+      '@style': resolve('..', 'client/styles'),
+      '@view': resolve('..', 'client/views'),
+      '@element': resolve('..', 'client/components'),
+      '@route': resolve('..', 'client/router')
     }
   },
   module: {
     rules: [
       {
-        test: /\.tsx$/,
+        test: /\.tsx?$/,
         use: [
           {
             loader: 'babel-loader'
@@ -32,21 +36,30 @@ const options: Configuration = {
       },
       {
         enforce: 'pre',
-        test: /\.jsx$/,
+        test: /\.jsx?$/,
         loader: 'source-map-loader',
         exclude: resolve('..', 'node_modules')
       }
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    new WebpackBar(),
     new HtmlWebpackPlugin({
       title: '微应用',
       template: resolve('..', 'static/index.html'),
       filename: 'index.html'
     }),
-    new compressionWebpackPlugin()
-  ]
-};
+    new CompressionWebpackPlugin(),
+    new ESLintWebpackPlugin({
+      fix: true,
+      context: resolve('..', 'src'),
+      cache: true,
+      cacheLocation: resolve('..', 'cache/eslint')
+    })
+  ],
+  stats: {
+    errorDetails: true
+  }
+}
 
-export default options;
+export default options
