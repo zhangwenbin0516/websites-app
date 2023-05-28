@@ -1,6 +1,7 @@
-import React from 'react';
+import { renderToPipeableStream } from 'react-dom/server';
 
-function Server() {
+function Server(ctx: any, assets: string[]) {
+  console.log(ctx, assets)
   return (
     <div>
       Server

@@ -12,7 +12,7 @@ export const resolve = (...dirs: string[]) => {
 export const configs: Configuration = {
   mode: "development",
   entry: {
-    main: resolve("..", "src/main.tsx"),
+    main: resolve("..", "src/client.tsx"),
     reactJS: ["react", "react-dom"],
     router: ["react-router-dom"]
   },
