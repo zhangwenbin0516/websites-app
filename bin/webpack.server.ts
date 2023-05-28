@@ -18,22 +18,25 @@ const options: Configuration = merge({
     aggregateTimeout: 200,
   }
 }, configs)
-
-import(resolve(`${prefix}.config.ts`)).then(res => {
-  const config = (res?.default || {}).config
-  const app: koa = new koa({
-    proxy: true
-  })
-  const router: Router = new Router()
-  router.get('/', (ctx) => {
-    ctx.body = "sadasd===="
-  })
-  app.use(router.routes())
-  const serve = app.listen(config.port, config.host)
-  serve.addListener('listening', function() {
-    console.log(`访问服务地址:http://${config.host}:${config.port}`)
-  })
-  serve.addListener('error', function(error) {
-    console.log(`服务启动失败:${error}`)
-  })
+webpack(options, function(err, info) {
+  if (!err) {
+    import(resolve(`${prefix}.config.ts`)).then(res => {
+      const config = (res?.default || {}).config
+      const app: koa = new koa({
+        proxy: true
+      })
+      const router: Router = new Router()
+      router.get('/', (ctx) => {
+        ctx.body = "sadasd===="
+      })
+      app.use(router.routes())
+      const serve = app.listen(config.port, config.host)
+      serve.addListener('listening', function() {
+        console.log(`访问服务地址:http://${config.host}:${config.port}`)
+      })
+      serve.addListener('error', function(error) {
+        console.log(`服务启动失败:${error}`)
+      })
+    })
+  }
 })
