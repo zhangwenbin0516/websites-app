@@ -1,5 +1,6 @@
 import webpack, { Configuration } from "webpack"
 import merge from "webpack-merge"
+import nodeExternals from "webpack-node-externals"
 import koa from "koa"
 import Router from "@koa/router"
 import koaStatic from "koa-static"
@@ -17,6 +18,7 @@ if (argv) {
 const options: Configuration = merge({
   mode: "development",
   devtool: "inline-source-map",
+  target: "web",
   entry: {
     main: resolve("..", "src/server.tsx"),
     reactJS: ["react", "react-dom"],
@@ -71,7 +73,11 @@ const options: Configuration = merge({
       }
     ]
   },
-  watch: true
+  watch: true,
+  externalsPresets: {
+    node: true
+  },
+  externals: [nodeExternals()]
 }, configs)
 webpack(options, function(err, opts: any) {
   if (!err) {
@@ -92,7 +98,7 @@ webpack(options, function(err, opts: any) {
       const router: Router = new Router()
       router.get('/', (ctx) => {
         const props: any = {url: ctx.url || '/'}
-        const { pipe } = renderToPipeableStream(React.createElement(APP, props), {
+        const { pipe, abort } = renderToPipeableStream(React.createElement(APP, props), {
           bootstrapScripts: etsJSON,
           onShellReady() {
             ctx.respond = false
@@ -104,6 +110,7 @@ webpack(options, function(err, opts: any) {
           onShellError() {},
           onError() {}
         })
+        setTimeout(abort, 5000)
       })
       app.use(router.routes())
       const serve = app.listen(config.port, config.host)

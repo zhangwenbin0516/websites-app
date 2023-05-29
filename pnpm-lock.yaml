@@ -73,6 +73,9 @@ devDependencies:
   '@types/react-router-dom':
     specifier: ^5.3.3
     version: 5.3.3
+  '@types/webpack-node-externals':
+    specifier: ^3.0.0
+    version: 3.0.0(webpack-cli@5.1.1)
   babel-loader:
     specifier: ^9.1.2
     version: 9.1.2(@babel/core@7.19.6)(webpack@5.84.0)
@@ -145,6 +148,9 @@ devDependencies:
   webpack-merge:
     specifier: ^5.9.0
     version: 5.9.0
+  webpack-node-externals:
+    specifier: ^3.0.0
+    version: 3.0.0
   webpackbar:
     specifier: ^5.0.2
     version: 5.0.2(webpack@5.84.0)
@@ -1981,6 +1987,18 @@ packages:
 
   /@types/strip-json-comments@0.0.30:
     resolution: {integrity: sha512-7NQmHra/JILCd1QqpSzl8+mJRc8ZHz3uDm8YV1Ks9IhK0epEiTw8aIErbvH9PI+6XbqhyIQy3462nEsn7UVzjQ==}
+    dev: true
+
+  /@types/webpack-node-externals@3.0.0(webpack-cli@5.1.1):
+    resolution: {integrity: sha512-Z3ELJiH0aZjxkoymT2nrGSmCF/CYjiqC0bpv4/DWy9h7e6gP4B2qmKZFHJFermeF0SYURbSw0puddQl9dMMV0w==}
+    dependencies:
+      '@types/node': 20.2.3
+      webpack: 5.84.0(webpack-cli@5.1.1)
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+      - webpack-cli
     dev: true
 
   /@types/ws@8.5.4:
@@ -5622,6 +5640,11 @@ packages:
     dependencies:
       clone-deep: 4.0.1
       wildcard: 2.0.1
+    dev: true
+
+  /webpack-node-externals@3.0.0:
+    resolution: {integrity: sha512-LnL6Z3GGDPht/AigwRh2dvL9PQPFQ8skEpVrWZXLWBYmqcaojHNN0onvHzie6rq7EWKrrBfPYqNEzTJgiwEQDQ==}
+    engines: {node: '>=6'}
     dev: true
 
   /webpack-sources@3.2.3:
