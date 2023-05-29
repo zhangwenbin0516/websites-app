@@ -2,8 +2,11 @@ import webpack, { Configuration } from "webpack"
 import merge from "webpack-merge"
 import koa from "koa"
 import Router from "@koa/router"
+import koaStatic from "koa-static"
+import React from "react"
+import { renderToPipeableStream } from "react-dom/server"
 import {resolve, configs} from "./webpack.config"
-import Server from "../src/server"
+import APP from "../src/app"
 
 const args = process.argv.splice(2)
 let prefix: string = 'local'
@@ -15,7 +18,9 @@ const options: Configuration = merge({
   mode: "development",
   devtool: "inline-source-map",
   entry: {
-    main: resolve("..", "src/server.tsx")
+    main: resolve("..", "src/server.tsx"),
+    reactJS: ["react", "react-dom"],
+    router: ["react-router-dom"]
   },
   output: {
     path: resolve("..", "dist/server"),
@@ -83,9 +88,22 @@ webpack(options, function(err, opts: any) {
       const app: koa = new koa({
         proxy: true
       })
+      app.use(koaStatic(resolve('..', 'dist/server')))
       const router: Router = new Router()
       router.get('/', (ctx) => {
-        Server(ctx, etsJSON)
+        const props: any = {url: ctx.url || '/'}
+        const { pipe } = renderToPipeableStream(React.createElement(APP, props), {
+          bootstrapScripts: etsJSON,
+          onShellReady() {
+            ctx.respond = false
+            ctx.response.status = 200
+            ctx.set("Content-Type", "text/html")
+            pipe(ctx.res)
+            ctx.res.end()
+          },
+          onShellError() {},
+          onError() {}
+        })
       })
       app.use(router.routes())
       const serve = app.listen(config.port, config.host)

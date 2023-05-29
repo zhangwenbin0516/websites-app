@@ -11,11 +11,6 @@ export const resolve = (...dirs: string[]) => {
 
 export const configs: Configuration = {
   mode: "development",
-  entry: {
-    main: resolve("..", "src/client.tsx"),
-    reactJS: ["react", "react-dom"],
-    router: ["react-router-dom"]
-  },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx', '.css', '.scss', '.json'],
     alias: {
@@ -24,7 +19,8 @@ export const configs: Configuration = {
       '@view': resolve('..', 'src/views'),
       '@element': resolve('..', 'src/components'),
       '@route': resolve('..', 'src/router')
-    }
+    },
+    mainFiles: ["index"]
   },
   module: {
     rules: [
@@ -38,7 +34,11 @@ export const configs: Configuration = {
             }
           },
           {
-            loader: 'ts-loader'
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+              configFile: resolve('..', 'tsconfig.json')
+            }
           }
         ],
         exclude: resolve('..', 'node_modules')

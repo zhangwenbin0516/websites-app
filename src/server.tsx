@@ -1,12 +1,6 @@
-import { renderToPipeableStream } from 'react-dom/server';
+import { hydrateRoot } from 'react-dom/client'
+import App from './app'
 
-function Server(ctx: any, assets: string[]) {
-  console.log(ctx, assets)
-  return (
-    <div>
-      Server
-    </div>
-  );
-}
-
-export default Server;
+const dom = document.getElementById('root') as HTMLElement
+const root = hydrateRoot(dom, <App />)
+root.render(<App />)
