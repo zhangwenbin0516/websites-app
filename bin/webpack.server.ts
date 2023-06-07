@@ -1,13 +1,10 @@
 import webpack, { Configuration } from "webpack"
 import merge from "webpack-merge"
-import nodeExternals from "webpack-node-externals"
 import koa from "koa"
 import Router from "@koa/router"
 import koaStatic from "koa-static"
-import React from "react"
-import { renderToPipeableStream } from "react-dom/server"
 import {resolve, configs} from "./webpack.config"
-import APP from "../src/app"
+import streamRender from './server'
 
 const args = process.argv.splice(2)
 let prefix: string = 'local'
@@ -18,17 +15,15 @@ if (argv) {
 const options: Configuration = merge({
   mode: "development",
   devtool: "inline-source-map",
-  target: "web",
-  entry: {
-    main: resolve("..", "src/server.tsx"),
-    reactJS: ["react", "react-dom"],
-    router: ["react-router-dom"]
+  target: 'node',
+  externalsPresets: {
+    node: true
   },
   output: {
     path: resolve("..", "dist/server"),
     filename: "js/[name].js",
     chunkFilename: "js/[id].js",
-    publicPath: "/"
+    publicPath: "/",
   },
   module: {
     rules: [
@@ -73,11 +68,7 @@ const options: Configuration = merge({
       }
     ]
   },
-  watch: true,
-  externalsPresets: {
-    node: true
-  },
-  externals: [nodeExternals()]
+  watch: true
 }, configs)
 webpack(options, function(err, opts: any) {
   if (!err) {
@@ -85,10 +76,10 @@ webpack(options, function(err, opts: any) {
       const config = (res?.default || {}).config
       const optJSON = opts?.toJson({assets: true})
       const assets = optJSON.assets || []
-      const etsJSON: string[] = []
+      const etsJSON: any = []
       assets.filter((key: any) =>{
         if (!/\.html?$/.test(key.name)) {
-          etsJSON.push(`http://${config.host}:${config.port}/${key.name}`)
+          etsJSON.push(`/${key.name}`)
         }
       })
       const app: koa = new koa({
@@ -96,21 +87,10 @@ webpack(options, function(err, opts: any) {
       })
       app.use(koaStatic(resolve('..', 'dist/server')))
       const router: Router = new Router()
-      router.get('/', (ctx) => {
-        const props: any = {url: ctx.url || '/'}
-        const { pipe, abort } = renderToPipeableStream(React.createElement(APP, props), {
-          bootstrapScripts: etsJSON,
-          onShellReady() {
-            ctx.respond = false
-            ctx.response.status = 200
-            ctx.set("Content-Type", "text/html")
-            pipe(ctx.res)
-            ctx.res.end()
-          },
-          onShellError() {},
-          onError() {}
-        })
-        setTimeout(abort, 5000)
+      router.get('/', async (ctx, next) => {
+        const response = await streamRender(ctx, etsJSON)
+        ctx.body  = response
+        await next()
       })
       app.use(router.routes())
       const serve = app.listen(config.port, config.host)

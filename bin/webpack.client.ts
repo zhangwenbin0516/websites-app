@@ -1,6 +1,7 @@
-import webpack, { Compiler, Configuration, HotModuleReplacementPlugin } from "webpack"
+import webpack, { Compiler, Configuration } from "webpack"
 import merge from "webpack-merge"
 import devServer from "webpack-dev-server"
+import HtmlWebpackPlugin from "html-webpack-plugin"
 import { resolve, configs } from "./webpack.config"
 import serveConf from "./local.config"
 
@@ -60,7 +61,15 @@ const options: Configuration = merge(configs, {
         exclude: resolve('..', 'node_modules')
       }
     ]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: '微应用',
+      template: resolve('..', 'static/index.html'),
+      filename: 'index.html',
+      publicPath: 'dist/client'
+    }),
+  ]
 })
 
 const compiler: Compiler = webpack(options)
@@ -71,7 +80,7 @@ const serve = new devServer({
   open: true,
   compress: true,
   static: {
-    directory: resolve('..', 'dist/'),
+    directory: resolve('..', 'dist/client'),
     publicPath: '/'
   },
   client: {
