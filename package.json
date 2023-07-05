@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@koa/router": "^12.0.0",
+    "@micro-zoe/micro-app": "^0.8.11",
     "@tanstack/react-query": "^4.29.11",
     "koa": "^2.14.2",
     "koa-static": "^5.0.0",

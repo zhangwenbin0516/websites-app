@@ -1,10 +1,11 @@
 import webpack, { Configuration } from "webpack"
 import merge from "webpack-merge"
 import koa from "koa"
-import Router from "@koa/router"
+import Router from '@koa/router'
 import koaStatic from "koa-static"
 import {resolve, configs} from "./webpack.config"
-import streamRender from './server'
+import getRouter from './get.router'
+
 
 const args = process.argv.splice(2)
 let prefix: string = 'local'
@@ -74,6 +75,7 @@ webpack(options, function(err, opts: any) {
   if (!err) {
     import(resolve(`${prefix}.config.ts`)).then(res => {
       const config = (res?.default || {}).config
+      const api = (res?.default || {}).api
       const optJSON = opts?.toJson({assets: true})
       const assets = optJSON.assets || []
       const etsJSON: any = []
@@ -85,13 +87,10 @@ webpack(options, function(err, opts: any) {
       const app: koa = new koa({
         proxy: true
       })
+      
       app.use(koaStatic(resolve('..', 'dist/server')))
-      const router: Router = new Router()
-      router.get('/', async (ctx, next) => {
-        const response = await streamRender(ctx, etsJSON)
-        ctx.body  = response
-        await next()
-      })
+      const router = new Router()
+      router.use('/', getRouter(etsJSON, api).routes())
       app.use(router.routes())
       const serve = app.listen(config.port, config.host)
       serve.addListener('listening', function() {
