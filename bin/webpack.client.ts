@@ -8,11 +8,6 @@ import serveConf from "./local.config"
 const options: Configuration = merge(configs, {
   mode: "development",
   devtool: "inline-source-map",
-  entry: {
-    main: resolve("..", "src/client.tsx"),
-    reactJS: ["react", "react-dom"],
-    router: ["react-router-dom"]
-  },
   output: {
     path: resolve("..", "dist/client"),
     filename: "js/[name].js",
