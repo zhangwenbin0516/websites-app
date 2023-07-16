@@ -17,8 +17,8 @@ interface Api {
 }
 
 const getUser = (api: Api) => {
-  return new Promise((resolve, reject) => {
-    http.get({
+  return new Promise((resolve) => {
+    const req = http.get({
       ...api,
       path: '/auth/code'
     }, (res) => {
@@ -35,10 +35,17 @@ const getUser = (api: Api) => {
         resolve(lists)
       })
       res.on('error', (e) => {
-        reject({
+        resolve({
           message: e.message,
           code: 500
         })
+      })
+    })
+
+    req.on('error', () => {
+      resolve({
+        message: '无法链接服务器',
+        code: 500
       })
     })
   })
@@ -48,7 +55,6 @@ const streamRender = async (ctx: Context, assets: string[], api: Api = {}) => {
   const uid = ctx.get('uid')
   let userInfo: any = null
   const url = queryString.parse(ctx.url, '/')
-  console.log(url)
   return await new Promise((resolve) => {
     const { pipe, abort } = renderToPipeableStream(<StaticRouter location={'/'}>
     <Router />
@@ -70,14 +76,14 @@ const streamRender = async (ctx: Context, assets: string[], api: Api = {}) => {
           </head>
           <body>
             <div id="root">`)
-          pipe(ctx.res)
-          ctx.res.write(`</div>
+        pipe(ctx.res)
+        ctx.res.write(`</div>
           </body>
           </html>`)
-          resolve({})
+        resolve({})
       },
       onShellError(error) {
-        console.log(error)
+        console.log(error, 'ssss=====')
       },
       onError() {
         console.log('asdasdasd')
