@@ -3,6 +3,7 @@ import merge from "webpack-merge"
 import koa from "koa"
 import Router from '@koa/router'
 import koaStatic from "koa-static"
+import koaCompress from "koa-compress"
 import {resolve, configs} from "./webpack.config"
 import getRouter from './get.router'
 
@@ -24,7 +25,7 @@ const options: Configuration = merge({
     path: resolve("..", "dist/server"),
     filename: "js/[name].js",
     chunkFilename: "js/[id].js",
-    publicPath: "/",
+    publicPath: "/"
   },
   module: {
     rules: [
@@ -87,8 +88,10 @@ webpack(options, function(err, opts: any) {
       const app: koa = new koa({
         proxy: true
       })
-      
-      app.use(koaStatic(resolve('..', 'dist/server')))
+      app.use(koaCompress())
+      app.use(koaStatic(resolve('..', 'dist/server'), {
+        gzip: true
+      }))
       const router = new Router()
       router.use('/', getRouter(etsJSON, api).routes())
       app.use(router.routes())

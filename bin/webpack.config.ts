@@ -17,13 +17,6 @@ export const configs: Configuration = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx', '.css', '.scss', '.json'],
-    alias: {
-      '@': resolve('..', 'src'),
-      '@style': resolve('..', 'src/styles'),
-      '@view': resolve('..', 'src/views'),
-      '@element': resolve('..', 'src/components'),
-      '@route': resolve('..', 'src/router')
-    },
     mainFiles: ["index"]
   },
   module: {

@@ -3,6 +3,8 @@ import { hydrateRoot } from 'react-dom/client'
 import { BrowserRouter as Router } from 'react-router-dom'
 import MicroApp from '@micro-zoe/micro-app'
 import RootRouter from './router'
+import './layout/style/reset.css'
+
 
 const App: FC = () => {
   return (<Router basename='/'>

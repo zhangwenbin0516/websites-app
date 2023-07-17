@@ -7,7 +7,7 @@ import { resolve, configs } from "./webpack.config"
 const options: Configuration = merge({
   mode: "production",
   output: {
-    path: resolve('..', 'dist'),
+    path: resolve('..', 'dist/build'),
     filename: 'js/[name].[contenthash:7].js',
     chunkFilename: 'js/[name].[id].js',
     publicPath: '/'

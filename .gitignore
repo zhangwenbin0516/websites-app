@@ -5,3 +5,8 @@ node_modules
 .vscode
 node_modules
 dist
+pnpm-lock.yaml
+package-loack.json
+yarn.lock
+bin/*.config.ts
+!bin/env.config.ts
