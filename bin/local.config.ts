@@ -1,6 +1,6 @@
 export default {
   config: {
-    host: "localhost",
+    host: "2409:8a00:3231:25f1:e23f:49ff:fe9f:babd",
     port: 36301
   },
   api: {
