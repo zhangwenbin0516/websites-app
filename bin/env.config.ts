@@ -1,8 +1,7 @@
 export default {
-  config: {
-    host: "localhost",
-    port: 36301
-  },
+  host: "localhost",
+  port: 36301,
+  publicJS: 'dist/server/js',
   api: {
     host: "localhost",
     port: 36001

@@ -1,13 +1,17 @@
-import webpack, { Compiler, Configuration } from "webpack"
+import webpack, { Compiler, Configuration, DefinePlugin } from "webpack"
 import merge from "webpack-merge"
 import devServer from "webpack-dev-server"
-import HtmlWebpackPlugin from "html-webpack-plugin"
 import { resolve, configs } from "./webpack.config"
-import serveConf from "./local.config"
 
 const options: Configuration = merge(configs, {
   mode: "development",
+  target: ["web", "es2017"],
   devtool: "inline-source-map",
+  entry: {
+    'react.app': resolve('..', 'src/entry/client.tsx'),
+    'react.js': ["react", "react-dom"],
+    'react.router': ["react-router-dom"]
+  },
   output: {
     path: resolve("..", "dist/client"),
     filename: "js/[name].js",
@@ -23,7 +27,16 @@ const options: Configuration = merge(configs, {
             loader: 'style-loader'
           },
           {
-            loader: 'css-loader'
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+              modules: {
+                mode: 'local',
+                localIdentName: '[name][local]-[hash:base64:5]',
+                localIdentContext: resolve('..', 'src'),
+                exportGlobals: true,
+              }
+            }
           }
         ],
         exclude: resolve('..', 'node_modules')
@@ -35,7 +48,16 @@ const options: Configuration = merge(configs, {
             loader: 'style-loader'
           },
           {
-            loader: 'css-loader'
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+              modules: {
+                mode: 'local',
+                localIdentName: '[name][local]-[hash:base64:5]',
+                localIdentContext: resolve('..', 'src'),
+                exportGlobals: true,
+              }
+            }
           },
           {
             loader: 'postcss-loader'
@@ -58,39 +80,44 @@ const options: Configuration = merge(configs, {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: '微应用',
-      template: resolve('..', 'static/index.html'),
-      filename: 'index.html',
-      publicPath: 'dist/client'
-    }),
+    new webpack.DefinePlugin({
+      'process.env.mode': JSON.stringify('csr')
+    })
   ]
 })
 
 const compiler: Compiler = webpack(options)
+const argv = process.argv.slice(2)
+let prefix: string = 'local'
+if (argv.join('&').indexOf('mode=') > -1) {
+  argv.find((value, index) => {
+    prefix = argv[index].replace('mode=', '')
+    return value.indexOf('mode=') > -1
+  })
+}
 
-const serve = new devServer({
-  ...(serveConf.config || {}),
-  hot: true,
-  open: true,
-  compress: true,
-  static: {
-    directory: resolve('..', 'dist/client'),
-    publicPath: '/'
-  },
-  client: {
-    overlay: {
-      errors: true,
-      warnings: true
+import(resolve(`${prefix}.config.ts`)).then(async (res) => {
+  const config = (res?.default || {})
+  const serve = new devServer({
+    host: config.host,
+    port: config.port,
+    hot: true,
+    open: true,
+    compress: true,
+    historyApiFallback: true,
+    client: {
+      overlay: {
+        errors: true,
+        warnings: true
+      }
+    },
+    headers: {
+      "Access-Control-Allow-Origin": "*"
     }
-  },
-  headers: {
-    "Access-Control-Allow-Origin": "*"
-  }
-}, compiler)
+  }, compiler)
 
-serve.startCallback((err) => {
-  const devConfig = serveConf.config || {}
-  console.log(err, '错误日志')
-  console.log('本地访问服务地址：', `http://${devConfig.host}:${devConfig.port}`)
+  serve.startCallback((err) => {
+    console.log(err, '错误日志')
+    console.log('本地访问服务地址：', `http://${config.host}:${config.port}`)
+  })
 })

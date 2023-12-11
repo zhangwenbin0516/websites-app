@@ -1,5 +1,20 @@
 @charset 'utf-8';
-
+$mulberry: rgb(19, 17, 36);
+$dawn: rgb(247, 244, 237);
+$sallow: rgb(128, 99, 50);
+$indigo: rgb(22, 97, 171);
+$red: rgb(222, 28, 49);
 @mixin absolute() {
-  
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+}
+
+@mixin flex() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

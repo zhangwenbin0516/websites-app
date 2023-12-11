@@ -1,7 +1,9 @@
 import {Configuration} from "webpack"
 import webpackBar from "webpackbar"
 import compressionWebpackPlugin from "compression-webpack-plugin"
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 import eslintWebpackPlugin from "eslint-webpack-plugin"
+import { CleanWebpackPlugin } from "clean-webpack-plugin"
 import path from "path"
 
 export const resolve = (...dirs: string[]) => {
@@ -9,12 +11,6 @@ export const resolve = (...dirs: string[]) => {
 }
 
 export const configs: Configuration = {
-  mode: "development",
-  entry: {
-    main: resolve("..", "src/main.tsx"),
-    reactJS: ["react", "react-dom"],
-    router: ["react-router-dom"]
-  },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx', '.css', '.scss', '.json'],
     mainFiles: ["index"]
@@ -50,6 +46,13 @@ export const configs: Configuration = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      title: '微应用',
+      template: resolve('..', 'static/index.html'),
+      filename: 'index.html',
+      favicon: resolve('..', 'static/favicon.png')
+    }),
     new webpackBar(),
     new compressionWebpackPlugin(),
     new eslintWebpackPlugin({

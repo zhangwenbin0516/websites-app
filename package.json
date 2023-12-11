@@ -4,11 +4,14 @@
   "description": "",
   "scripts": {
     "dev": "ts-node-dev bin/webpack.client.ts",
-    "serve": "ts-node-dev bin/webpack.server.ts",
-    "build": "ts-node bin/build.ts"
+    "serve": "ts-node-dev bin/webpack.server.ts mode=local",
+    "serve:ssr": "node bin/server.js",
+    "build:csr": "ts-node bin/build.ts",
+    "build:ssr": "ts-node bin/build.ts",
+    "build": "npm run build:csr && npm run build:ssr"
   },
   "keywords": [],
-  "author": "",
+  "author": "zhangwenbin<942623159@qq.com>",
   "license": "ISC",
   "dependencies": {
     "@koa/router": "^12.0.0",
