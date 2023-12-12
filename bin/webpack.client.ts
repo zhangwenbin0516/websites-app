@@ -1,4 +1,4 @@
-import webpack, { Compiler, Configuration, DefinePlugin } from "webpack"
+import webpack, { Compiler, Configuration } from "webpack"
 import merge from "webpack-merge"
 import devServer from "webpack-dev-server"
 import { resolve, configs } from "./webpack.config"
@@ -28,15 +28,6 @@ const options: Configuration = merge(configs, {
           },
           {
             loader: 'css-loader',
-            options: {
-              importLoaders: 2,
-              modules: {
-                mode: 'local',
-                localIdentName: '[name][local]-[hash:base64:5]',
-                localIdentContext: resolve('..', 'src'),
-                exportGlobals: true,
-              }
-            }
           }
         ],
         exclude: resolve('..', 'node_modules')
@@ -50,13 +41,13 @@ const options: Configuration = merge(configs, {
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 2,
               modules: {
                 mode: 'local',
+                auto: true,
                 localIdentName: '[name][local]-[hash:base64:5]',
                 localIdentContext: resolve('..', 'src'),
                 exportGlobals: true,
-              }
+              },
             }
           },
           {
@@ -69,13 +60,11 @@ const options: Configuration = merge(configs, {
         exclude: resolve('..', 'node_modules')
       },
       {
-        test: /\.(png|gif|jpg|jpeg|webp)$/,
-        loader: 'url-loader',
-        options: {
-          limit: 0 * 1024,
-          name: 'images/[name].[ext]'
-        },
-        exclude: resolve('..', 'node_modules')
+        test: /\.(png|gif|jpg|jpeg)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'img/[name][ext]' // 局部指定输出位置
+        }
       }
     ]
   },

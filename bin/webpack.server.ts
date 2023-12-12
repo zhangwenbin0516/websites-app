@@ -41,7 +41,16 @@ const options: Configuration = merge({
             loader: 'style-loader'
           },
           {
-            loader: 'css-loader'
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+              modules: {
+                mode: 'local',
+                localIdentName: '[name][local]-[hash:base64:5]',
+                localIdentContext: resolve('..', 'src'),
+                exportGlobals: true,
+              }
+            }
           },
           {
             loader: 'postcss-loader'
@@ -53,13 +62,11 @@ const options: Configuration = merge({
         exclude: resolve('..', 'node_modules')
       },
       {
-        test: /\.(png|gif|jpg|jpeg|webp)$/,
-        loader: 'url-loader',
-        options: {
-          limit: 0 * 1024,
-          name: 'images/[name].[ext]'
-        },
-        exclude: resolve('..', 'node_modules')
+        test: /\.(png|gif|jpg|jpeg)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'img/[name][ext]' // 局部指定输出位置
+        }
       }
     ]
   },

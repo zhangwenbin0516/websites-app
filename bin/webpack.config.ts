@@ -13,7 +13,11 @@ export const resolve = (...dirs: string[]) => {
 export const configs: Configuration = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx', '.css', '.scss', '.json'],
-    mainFiles: ["index"]
+    mainFiles: ["index"],
+    alias: {
+      '@': resolve('..', 'src'),
+      '@assets': resolve('..', 'src/assets')
+    }
   },
   module: {
     rules: [

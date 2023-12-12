@@ -32,16 +32,7 @@ const options: Configuration = merge({
                         loader: miniCssExtractPlugin.loader
                     },
                     {
-                        loader: 'css-loader',
-                        options: {
-                            importLoaders: 2,
-                            modules: {
-                                mode: 'local',
-                                localIdentName: '[name][local]-[hash:base64:5]',
-                                localIdentContext: resolve('..', 'src'),
-                                exportGlobals: true,
-                            }
-                        }
+                        loader: 'css-loader'
                     }
                 ],
                 exclude: resolve('..', 'node_modules')
@@ -74,13 +65,11 @@ const options: Configuration = merge({
                 exclude: resolve('..', 'node_modules')
             },
             {
-                test: /\.(png|gif|jpg|jpeg|webp)$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 0 * 1024,
-                    name: 'images/[name].[contenthash:7].[ext]'
-                },
-                exclude: resolve('..', 'node_modules')
+                test: /\.(png|gif|jpg|jpeg)$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'img/[name].[contenthash:7][ext]' // 局部指定输出位置
+                }
             }
         ]
     },
