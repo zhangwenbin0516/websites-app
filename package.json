@@ -16,8 +16,9 @@
   "dependencies": {
     "@koa/router": "^12.0.0",
     "@micro-zoe/micro-app": "^0.8.11",
-    "@tanstack/react-query": "^4.29.11",
+    "@tanstack/react-query": "^5.13.4",
     "antd": "^5.12.2",
+    "cross-fetch": "^4.0.0",
     "dayjs": "^1.11.10",
     "koa": "^2.14.2",
     "koa-compress": "^5.1.1",
@@ -38,6 +39,7 @@
     "@babel/register": "^7.21.0",
     "@babel/runtime": "^7.22.3",
     "@babel/runtime-corejs3": "^7.22.3",
+    "@tanstack/react-query-devtools": "^5.13.5",
     "@types/babel__register": "^7.17.0",
     "@types/koa": "^2.13.6",
     "@types/koa-compress": "^4.0.3",

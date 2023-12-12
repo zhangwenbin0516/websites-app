@@ -14,7 +14,22 @@
     top: 25px;
     left: 50px;
     z-index: 50;
-    img {
-        width: 70px;
+    background: url('~@assets/lh/lh-logo.png') center top no-repeat;
+    background-size: contain;
+}
+.en {
+    @extend .logo;
+    width: 100px;
+    background-image: url('~@assets/lh/allkic-logo.png');
+}
+.locale {
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    z-index: 50;
+    cursor: pointer;
+    &_col {
+        color: $dawn;
+        font-size: 20px;
     }
 }
