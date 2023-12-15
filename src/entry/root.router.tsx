@@ -1,24 +1,26 @@
 import { ConfigProvider } from 'antd'
 import { FC, Suspense, lazy, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
+import microApp from '@micro-zoe/micro-app'
 import { Routes, Route, Location, useLocation, useNavigate, NavigateFunction } from 'react-router-dom'
 
-import { RootProivder, RootState } from '../hooks/root/atom'
+import { RootProivder, RootState } from '@hook/root/atom'
 import { LocaleData } from 'typings/module/local'
 import dayjs from 'dayjs'
 import zhCN from 'antd/locale/zh_CN'
 import enUS from 'antd/locale/en_US'
 import zhHK from 'antd/locale/zh_HK'
 
-const Loading = lazy(() => import('../layout/welcome/loading'))
-const Welcome = lazy(() => import('../pages/welcome'))
-const ErrorRouter = lazy(() => import('../pages/error/error.router'))
-const LhRouter = lazy(() => import('../pages/lh/lh.router'))
-const RegisterRouter = lazy(() => import('../pages/register/register.router'))
+const Loading = lazy(() => import('@/layout/welcome/loading'))
+const Welcome = lazy(() => import('@page/welcome'))
+const ErrorRouter = lazy(() => import('@page/error/error.router'))
+const LhHost = lazy(() => import('@page/lh'))
+const RegisterRouter = lazy(() => import('@page/register/register.router'))
 
 import 'dayjs/locale/zh-cn'
 import 'dayjs/locale/zh-hk'
 import 'dayjs/locale/en'
+
 
 const RootRouter: FC = () => {
     const config: LocaleData = {
@@ -36,6 +38,7 @@ const RootRouter: FC = () => {
     }, [])
      useEffect(() => {
         dayjs(state.locale)
+        microApp.setGlobalData({...state})
     }, [state])
     return (<ConfigProvider locale={config[state.locale]}>
         <Routes>
@@ -43,14 +46,14 @@ const RootRouter: FC = () => {
                 <Route path='welcome' element={<Suspense fallback={<Loading />}>
                     <Welcome />
                 </Suspense>} />
-                <Route path='lh' element={<Suspense fallback={<Loading />}>
-                    <ErrorRouter />
+                <Route path='lh/*' element={<Suspense fallback={<Loading />}>
+                    <LhHost />
                 </Suspense>} />
                 <Route path='register' element={<Suspense fallback={<Loading />}>
-                    <LhRouter />
+                    <RegisterRouter />
                 </Suspense>} />
                 <Route path='error' element={<Suspense fallback={<Loading />}>
-                    <RegisterRouter />
+                    <ErrorRouter />
                 </Suspense>} />
             </Route>
         </Routes>

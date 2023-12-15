@@ -1,7 +1,8 @@
 import webpack, { Compiler, Configuration } from "webpack"
 import merge from "webpack-merge"
 import devServer from "webpack-dev-server"
-import { resolve, configs } from "./webpack.config"
+import { resolve, configs, configEnv } from "./webpack.config"
+
 
 const options: Configuration = merge(configs, {
   mode: "development",
@@ -69,23 +70,13 @@ const options: Configuration = merge(configs, {
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env.mode': JSON.stringify('csr')
-    })
+    new webpack.HotModuleReplacementPlugin()
   ]
 })
 
 const compiler: Compiler = webpack(options)
-const argv = process.argv.slice(2)
-let prefix: string = 'local'
-if (argv.join('&').indexOf('mode=') > -1) {
-  argv.find((value, index) => {
-    prefix = argv[index].replace('mode=', '')
-    return value.indexOf('mode=') > -1
-  })
-}
-
-import(resolve(`${prefix}.config.ts`)).then(async (res) => {
+const params = configEnv()
+import(resolve(`${params.mode || 'local'}.config.ts`)).then(async (res) => {
   const config = (res?.default || {})
   const serve = new devServer({
     host: config.host,

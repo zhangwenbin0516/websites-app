@@ -1,11 +1,11 @@
-import webpack, { Compiler, Configuration, DefinePlugin } from "webpack"
+import webpack, { BannerPlugin, Compiler, Configuration, DefinePlugin } from "webpack"
 import merge from "webpack-merge"
 import miniCssExtractPlugin from "mini-css-extract-plugin"
 import { resolve, configs } from "./webpack.config"
 
-const argv = process.title
+const arg = process.title
 let isMode: boolean = false
-if (argv.search('build:ssr') > -1) {
+if (arg.search('build:ssr') > -1) {
     isMode = true
     process.env.mode = 'ssr'
 }
@@ -23,6 +23,7 @@ const options: Configuration = merge({
         chunkFilename: 'js/[name].[id].js',
         publicPath: '/'
     },
+    devtool: 'source-map',
     module: {
         rules: [
             {
@@ -79,7 +80,11 @@ const options: Configuration = merge({
             chunkFilename: 'css/[id].[contenthash:7].css'
         }),
         new DefinePlugin({
-            'process.env.mode': JSON.stringify(isMode ? 'ssr' : 'csr')
+            'LH_MODE': JSON.stringify(isMode ? 'ssr' : 'csr'),
+            'LH_ENV': JSON.stringify('production')
+        }),
+        new BannerPlugin({
+            banner: "本源码所有权归北京琅寰科技有限公司所有，最终解释权由北京琅寰科技有限公司提供！"
         })
     ]
 }, configs)

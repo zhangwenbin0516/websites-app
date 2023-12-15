@@ -4,15 +4,15 @@ import { RecoilRoot } from 'recoil'
 import { BrowserRouter as Router } from 'react-router-dom'
 import RootRouter from './root.router'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const queryClient = new QueryClient()
 const App: FC = () => {
-
     useEffect(() => {
         MicroApp.start({
-            ssr: true
+            ssr: true,
         })
+        const html = document.documentElement;
+        html.style.fontSize = `${(html.clientWidth / 1920).toFixed(5)}px`
     }, [])
 
     return (<StrictMode>
@@ -22,7 +22,6 @@ const App: FC = () => {
                     <RootRouter />
                 </Router>
             </RecoilRoot>
-            <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider >
     </StrictMode>)
 }

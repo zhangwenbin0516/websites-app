@@ -1,4 +1,4 @@
-@import '../../style/page.scss';
+@import '@style/page.scss';
 
 .rel {
     position: relative;
@@ -9,27 +9,27 @@
 
 .logo {
     position: absolute;
-    width: 70px;
-    height: 70px;
-    top: 25px;
-    left: 50px;
+    width: 70rem;
+    height: 70rem;
+    top: 25rem;
+    left: 50rem;
     z-index: 50;
     background: url('~@assets/lh/lh-logo.png') center top no-repeat;
     background-size: contain;
 }
 .en {
     @extend .logo;
-    width: 100px;
+    width: 100rem;
     background-image: url('~@assets/lh/allkic-logo.png');
 }
 .locale {
     position: absolute;
-    top: 25px;
-    right: 30px;
+    top: 25rem;
+    right: 30rem;
     z-index: 50;
     cursor: pointer;
     &_col {
         color: $dawn;
-        font-size: 20px;
+        font-size: 20rem;
     }
 }

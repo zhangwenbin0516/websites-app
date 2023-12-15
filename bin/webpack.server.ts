@@ -2,6 +2,9 @@ import webpack, { Configuration, DefinePlugin } from "webpack"
 import merge from "webpack-merge"
 import { resolve, configs } from "./webpack.config"
 import './server'
+
+
+
 const options: Configuration = merge({
   mode: "development",
   devtool: "inline-source-map",
@@ -72,7 +75,8 @@ const options: Configuration = merge({
   },
   plugins: [
     new DefinePlugin({
-      'process.env.mode': JSON.stringify('ssr')
+      'LH_MODE': JSON.stringify('ssr'),
+      'LH_ENV': JSON.stringify('development')
     })
   ],
   watch: true

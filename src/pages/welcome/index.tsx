@@ -1,18 +1,22 @@
 import React, {FC, useEffect} from 'react'
-import WelcomePage from '../../layout/welcome'
-import { NavigateFunction, useNavigate } from 'react-router-dom'
-import style from './welcome.module.scss'
 import { useRecoilState } from 'recoil'
-import { RootProivder, RootState } from '../../hooks/root/atom'
 import { Dropdown } from 'antd'
-import { LocaleData } from '../../hooks/root/data'
+import { NavigateFunction, useNavigate } from 'react-router-dom'
+
+import WelcomePage from '@/layout/welcome'
+import { RootProivder, RootState } from '@hook/root/atom'
+import { LocaleData } from '@hook/root/data'
+
+import style from './welcome.module.scss'
+
+
 
 const Welcome:FC = function () {
     const history: NavigateFunction = useNavigate()
     const [state, setState] = useRecoilState<RootState>(RootProivder)
     useEffect(() => {
         setTimeout(() => {
-            // history({pathname: '/lh'})
+            history({pathname: '/lh'})
         }, 3000)
     }, [])
     const onStop = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
