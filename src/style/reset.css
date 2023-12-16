@@ -115,3 +115,11 @@ table {
   overflow: hidden;
   position: relative;
 }
+.pointer {
+  cursor: pointer;
+}
+
+.relative {
+  position: relative;
+  z-index: 1;
+}

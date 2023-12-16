@@ -32,7 +32,6 @@ const Welcome:FC = function () {
                 selectable: true,
                 onClick: (e) => {
                     const item = LocaleData.find(key => key.key === e.key)
-                    console.log(item)
                     setState({
                         locale: e.key,
                         localeText: item?.label
