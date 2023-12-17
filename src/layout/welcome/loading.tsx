@@ -3,7 +3,7 @@ import style from './welcome.module.scss'
 
 const Loading: FC = () => {
   const loading: MutableRefObject<null> = useRef(null)
-  let timeEle: any = null
+  let timeEle: NodeJS.Timeout|number = 0
   let rem: number = 1
   useEffect(() => {
     drawCircle()

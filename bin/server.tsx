@@ -5,7 +5,7 @@ import koaStatic from 'koa-static'
 import koaCompress from 'koa-compress'
 import React from 'react'
 import { renderToPipeableStream } from 'react-dom/server'
-import RootRouter from '../src/router'
+import App from '../src/entry/main'
 import register from '@babel/register'
 import { StaticRouter } from 'react-router-dom/server'
 import { resolve } from './webpack.config'
@@ -50,7 +50,7 @@ import(resolve(`${prefix}.config.ts`)).then(async (res) => {
     async function cb(ctx: Context) {
         return await new Promise(async (resolve) => {
             const { pipe, abort } = renderToPipeableStream(<StaticRouter location={'/'}>
-                <RootRouter />
+                <App />
             </StaticRouter>, {
                 onShellReady() {
                     const [before, after] = html.toString('utf-8').split('<!-- ssr:app -->')
@@ -80,7 +80,7 @@ import(resolve(`${prefix}.config.ts`)).then(async (res) => {
                     abort()
                 }
             })
-            setTimeout(() => abort(), 10000)
+            setTimeout(() => abort(), 5000)
         })
     }
     async function render(ctx: Context, next: Next) {

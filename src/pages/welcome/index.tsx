@@ -14,10 +14,14 @@ import style from './welcome.module.scss'
 const Welcome:FC = function () {
     const history: NavigateFunction = useNavigate()
     const [state, setState] = useRecoilState<RootState>(RootProivder)
+    let timeout: NodeJS.Timeout|number = 0
     useEffect(() => {
-        setTimeout(() => {
+        timeout = setTimeout(() => {
             history({pathname: '/lh'})
         }, 3000)
+        return () => {
+            clearTimeout(timeout)
+        }
     }, [])
     const onStop = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation()
