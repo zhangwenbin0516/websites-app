@@ -5,6 +5,9 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import RootRouter from './root.router'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
+import '@/locale'
+
+
 const queryClient = new QueryClient()
 const App: FC = () => {
     useEffect(() => {

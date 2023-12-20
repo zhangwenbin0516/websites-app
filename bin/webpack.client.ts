@@ -81,7 +81,6 @@ import(resolve(`${params.mode || 'local'}.config.ts`)).then(async (res) => {
   const serve = new devServer({
     host: config.host,
     port: config.port,
-    hot: true,
     open: true,
     compress: true,
     historyApiFallback: true,

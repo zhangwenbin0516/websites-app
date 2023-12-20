@@ -20,11 +20,13 @@
     "antd": "^5.12.2",
     "cross-fetch": "^4.0.0",
     "dayjs": "^1.11.10",
+    "i18next": "^23.7.11",
     "koa": "^2.14.2",
     "koa-compress": "^5.1.1",
     "koa-static": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-i18next": "^13.5.0",
     "react-router-dom": "^6.11.2",
     "recoil": "^0.7.7",
     "require": "^2.4.20"

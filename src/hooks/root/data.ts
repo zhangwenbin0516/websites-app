@@ -6,14 +6,14 @@ export interface LocaleProps {
 
 export const LocaleData: Array<LocaleProps> = [
     {
-        key: 'zh-cn',
+        key: 'zh-CN',
         label: '简体中文',
-        value: 'zh-cn'
+        value: 'zh-CN'
     },
     {
-        key: 'zh-hk',
+        key: 'zh-HK',
         label: '繁体中文',
-        value: 'zh-hk'
+        value: 'zh-HK'
     },
     {
         key: 'en',

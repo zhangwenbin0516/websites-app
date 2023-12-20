@@ -8,7 +8,7 @@ export interface RootState {
 export const RootProivder = atom<RootState>({
     key: 'rootState',
     default: {
-        locale: 'zh-cn',
+        locale: 'zh-CN',
         localeText: '简体中文'
     }
 })

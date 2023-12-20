@@ -41,6 +41,9 @@ export const configs: Configuration = {
       '@hook': resolve('..', 'src/hooks')
     }
   },
+  externals: {
+    fs: require('fs')
+  },
   module: {
     rules: [
       {

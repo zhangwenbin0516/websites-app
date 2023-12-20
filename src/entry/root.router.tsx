@@ -3,7 +3,7 @@ import { FC, Suspense, lazy, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 import microApp from '@micro-zoe/micro-app'
 import { Routes, Route, Location, useLocation, useNavigate, NavigateFunction } from 'react-router-dom'
-
+import {useTranslation} from 'react-i18next'
 import { RootProivder, RootState } from '@hook/root/atom'
 import { LocaleData } from 'typings/module/local'
 import dayjs from 'dayjs'
@@ -24,13 +24,14 @@ import 'dayjs/locale/en'
 
 const RootRouter: FC = () => {
     const config: LocaleData = {
-        'zh-cn': zhCN,
+        'zh-CN': zhCN,
         'en': enUS,
-        'zh-hk': zhHK
+        'zh-HK': zhHK
     }
     const route: Location = useLocation()
     const history: NavigateFunction = useNavigate()
     const [state] = useRecoilState<RootState>(RootProivder)
+    const [_, i18n] = useTranslation()
     useEffect(() => {
         if (route.pathname === '/') {
             history({ pathname: '/welcome' })
@@ -39,6 +40,7 @@ const RootRouter: FC = () => {
      useEffect(() => {
         dayjs(state.locale)
         microApp.setGlobalData({...state})
+        i18n.changeLanguage(state.locale)
     }, [state])
     return (<ConfigProvider locale={config[state.locale]}>
         <Routes>
