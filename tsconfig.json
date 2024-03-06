@@ -41,7 +41,7 @@
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     "typeRoots": [
       "node_modules/@types",
-      "typings"
+      "./typings"
     ], /* Specify multiple folders that act like './node_modules/@types'. */
     // "types": [],                                      /* Specify type package names to be included without being referenced in a source file. */
     // "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
@@ -115,12 +115,10 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "typings/index.d.ts",
-    "typings/**/*"
+    "typings"
   ],
   "exclude": [
     "node_modules",
-    "bin/webpack.config.ts"
   ],
   "ts-node": {
     "compilerOptions": {

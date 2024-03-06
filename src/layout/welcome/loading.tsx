@@ -1,16 +1,19 @@
 import { FC, MutableRefObject, useEffect, useRef } from 'react'
+import { useRecoilState } from 'recoil'
+import { RootProivder, RootState } from '@/hooks/root/atom'
 import style from './welcome.module.scss'
 
 const Loading: FC = () => {
   const loading: MutableRefObject<null> = useRef(null)
   let timeEle: NodeJS.Timeout|number = 0
   let rem: number = 1
+  const [state] = useRecoilState<RootState>(RootProivder);
   useEffect(() => {
     drawCircle()
     return () => {
       clearTimeout(timeEle)
     }
-  }, [])
+  }, [state.scale])
   function drawCircle() {
     const el: HTMLElement = document.documentElement
     rem = Number((el.clientWidth / 1920).toFixed(5))

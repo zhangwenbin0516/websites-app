@@ -69,6 +69,9 @@ const options: Configuration = merge(configs, {
       }
     ]
   },
+  optimization: {
+    runtimeChunk: 'single'
+  },
   plugins: [
     new webpack.HotModuleReplacementPlugin()
   ]
@@ -82,6 +85,7 @@ import(resolve(`${params.mode || 'local'}.config.ts`)).then(async (res) => {
     host: config.host,
     port: config.port,
     open: true,
+    hot: true,
     compress: true,
     historyApiFallback: true,
     client: {

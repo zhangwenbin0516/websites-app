@@ -1,23 +1,17 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import cnHome from './zh-cn/home.json'
-import hkHome from './zh-hk/home.json'
-import enHome from './en/home.json'
+import zhCN from './zh-cn'
+import zhHK from './zh-hk'
+import en from './en'
 const resources = {
     en: {
-        translation: {
-            home: enHome
-        }
+        translation: en
     },
     'zh-CN': {
-        translation: {
-            home: cnHome
-        }
+        translation: zhCN
     },
     'zh-HK': {
-        translation: {
-            hk: hkHome
-        }
+        translation: zhHK
     }
 }
 

@@ -6,8 +6,10 @@ import { NavigateFunction, useNavigate } from 'react-router-dom'
 import WelcomePage from '@/layout/welcome'
 import { RootProivder, RootState } from '@hook/root/atom'
 import { LocaleData } from '@hook/root/data'
+import { setStorage } from '@/hooks/storage'
 
 import style from './welcome.module.scss'
+
 
 
 
@@ -36,10 +38,13 @@ const Welcome:FC = function () {
                 selectable: true,
                 onClick: (e) => {
                     const item = LocaleData.find(key => key.key === e.key)
-                    setState({
+                    const config = {
+                        ...state,
                         locale: e.key,
                         localeText: item?.label
-                    })
+                    }
+                    setState(config)
+                    setStorage('config', config)
                     e.domEvent.stopPropagation()
                     e.domEvent.preventDefault()
                 }
