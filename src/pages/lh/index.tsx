@@ -17,29 +17,8 @@ const HomeComponent: FC = () => {
         setState(config)
         setStorage('config', config)
     }
-    const getFetch = (val: string) => {
-        axios.get("http://localhost:8001/code/code", {
-            timeout: 5000
-        }).then(res => {
-            console.log(res, val, "success", resN++)
-        }).catch(err => {
-            console.log(err, val, "err", errN++)
-        })
-    }
-    const FN = (n: number) => {
-        for(let i=0; i<300; i++) {
-            getFetch(i + '-1')
-        }
-        if (n < 10) {
-            setTimeout(() => {
-                FN(n+1)
-                
-            }, 100)
-        }
-    }
     useEffect(() => {
         microApp.addDataListener('lh-host', postMessage)
-        FN(0)
         return () => {
             microApp.removeDataListener('lh-host', postMessage)
         }
@@ -47,7 +26,7 @@ const HomeComponent: FC = () => {
     return(<Fragment>
         <micro-app 
         name="lh-host" 
-        url="http://gw.allkic.cn/" 
+        url="http://localhost:36310" 
         onDataChange={(e: any) => console.log('来自子应用的数据：', e.detail.data)}
         ssr baseroute="/lh"></micro-app>
     </Fragment>)
